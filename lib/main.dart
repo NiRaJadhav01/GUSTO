@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gusto/gusto.dart';
+import 'package:gusto/view/home_screen.dart';
 import 'package:gusto/view/login_screen.dart';
 import 'package:gusto/view/settings_screen.dart';
 import 'package:gusto/view/splash_screen.dart';
@@ -19,7 +19,7 @@ class MainApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const LoginScreen(),
-        '/gusto': (context) => const Gusto(),
+        '/gusto': (context) => const HomeScreen(),
         '/settings': (context) => const SettingsScreen(),
       },
     );
