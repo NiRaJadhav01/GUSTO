@@ -38,7 +38,7 @@ class _GustoState extends State<Gusto> {
           tabActiveBorder:
               Border.all(color: Colors.black, width: 1), // tab button border
           curve: Curves.easeOutExpo, // tab animation curves
-          duration: const Duration(milliseconds: 50), // tab animation duration
+          duration: const Duration(milliseconds: 200), // tab animation duration
           gap: 8, // the tab button gap between icon and text
           color: Colors.white, // unselected icon color
           activeColor: Colors.white, // selected icon and text color

@@ -2,10 +2,10 @@ List<Map> posts = [
   {
     "profile":
         "https://imgs.search.brave.com/ZlMA1xyb5O_WINlJ1KTJPjXirJamlkRY4vG4wWqequQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvZmVhdHVy/ZWQvY29vbC1wcm9m/aWxlLXBpY3R1cmUt/ODdoNDZnY29iamw1/ZTR4dS5qcGc",
-    "name": "Niraj Jadhav",
-    "loc": "Los Angeles",
+    "name": "Shubham Pathare Brand",
+    "loc": "London",
     "post":
-        "https://imgs.search.brave.com/QX9VSzK9-xEQFmbwmpNyKlAUde_zOj2GZc6xLOddSyk/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudW5zcGxhc2gu/Y29tL3Bob3RvLTE1/MTQ1MzMyMTI3MzUt/NWRmMjdkOTcwZGIw/P2ZtPWpwZyZxPTYw/Jnc9MzAwMCZpeGxp/Yj1yYi00LjAuMyZp/eGlkPU0zd3hNakEz/ZkRCOE1IeHpaV0Z5/WTJoOE1UTjhmRzFo/Y25Ob2JXVnNiRzk4/Wlc1OE1IeDhNSHg4/ZkRBPQ.jpeg",
+        "https://media.licdn.com/dms/image/v2/D4D03AQFAySptZXp-Cg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1704186055082?e=2147483647&v=beta&t=GuFtfnhgJbMhxfk9sIWIDYJ22gDLbRfdAOQmK_kwTf8",
   },
   {
     "profile":

@@ -16,40 +16,24 @@ class _HomeScreenState extends State<HomeScreen> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            leading: Container(
-              margin: const EdgeInsets.only(left: 8),
-              height: 60,
-              width: 60,
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 2,
-                    offset: Offset(0, 1),
-                  ),
-                ],
-              ),
-              child: const Icon(
-                Icons.add,
-                color: Colors.white,
+            leading: ClipOval(
+              child: Image.network(
+                "https://media.licdn.com/dms/image/v2/D4D03AQEoHKOvog00yA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1709236828250?e=2147483647&v=beta&t=qV9GSqCzPq0ilXCggGNDD6dG9_4rkT_eTWc4M2u-FTE",
               ),
             ),
-            centerTitle: true,
             title: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "GUSTO",
+                  "Hey There Shashi",
                   style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
                 ),
                 Text(
-                  "Good Trails",
+                  "Ready To Travel",
                   style: TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
