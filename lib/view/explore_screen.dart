@@ -1,5 +1,6 @@
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
+import 'package:gusto/model/favorites_model.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
@@ -152,6 +153,11 @@ class _ExploreScreenState extends State<ExploreScreen>
                 child: CircularMenu(
                   onClose: closeCircularMenu,
                   onFavorite: () {
+                    favoriteList.add(FavoritesModel(
+                        imageUrl: selectedImage.toString(),
+                        title: "",
+                        description: "",
+                        isLiked: "true"));
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Added to Favorites!')),
                     );

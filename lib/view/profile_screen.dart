@@ -1,6 +1,7 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gusto/model/favorites_model.dart';
 import 'package:gusto/view/settings_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -21,8 +22,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => SettingsScreen()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SettingsScreen()));
                 setState(() {});
               },
               child: const Icon(Icons.settings_outlined),
@@ -121,15 +122,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 2,
+                  itemCount: favoriteList.length,
                   itemBuilder: (context, index) {
-                    return const Padding(
-                      padding: EdgeInsets.all(8.0),
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: ClayContainer(
                         spread: 1,
                         borderRadius: 20,
                         width: 250,
                         color: Colors.grey,
+                        child: Image.network(favoriteList[index].imageUrl),
                       ),
                     );
                   }),
