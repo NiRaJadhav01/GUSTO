@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -6,181 +7,161 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.network(
-            'https://culinarylabschool.com/wp-content/uploads/2021/03/071819.CulinaryLab.065-200x300.jpg',
-            fit: BoxFit.cover,
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: const Alignment(-0.4, 0.8),
+            radius: 1,
+            colors: [
+              Colors.indigo.shade200,
+              Colors.lime.shade50,
+            ],
           ),
-          // Semi-transparent overlay for better contrast
-          Container(
-            color: Colors.black.withOpacity(0.4),
-          ),
-          SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+        ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 60),
+                Image.asset(
+                  "assets/Logo.png",
+                  color: Colors.black,
+                ),
+                // Email TextField
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: "Email",
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                // Password TextField
+                TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: "Password",
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    suffixIcon: const Icon(
+                      Icons.visibility_off,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                // Recover Password Link
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Recover Password?",
+                      style: GoogleFonts.gabarito(
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                // Sign In Button
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil("/gusto",
+                        (route) {
+                      return false;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.indigo.shade500,
+                    shadowColor: Colors.grey,
+                    minimumSize: const Size(400, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text(
+                    "Sign In",
+                    style: GoogleFonts.gabarito(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                // Or continue with section
+                Row(
                   children: [
-                    const SizedBox(height: 100), // Space for the logo
-                    Center(
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 100,
-                            width: 100,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromARGB(255, 153, 107, 104),
-                                ),
-                              ],
-                            ),
-                            child: Image.asset(
-                              "assets/Logo.png",
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Welcome to GUSTO',
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Your Social & Restaurant App',
-                            style: TextStyle(
-                                fontSize: 16.0, color: Colors.white70),
-                          ),
-                        ],
+                    const Expanded(child: Divider(thickness: 1)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        "Or continue with",
+                        style: TextStyle(color: Colors.grey.shade600),
                       ),
                     ),
-                    const SizedBox(height: 60.0),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        prefixIcon: const Icon(Icons.email),
-                        border: const OutlineInputBorder(),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.9),
-                      ),
-                      keyboardType: TextInputType.emailAddress,
+                    const Expanded(child: Divider(thickness: 1)),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                // Social Media Buttons
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.apple, size: 30, color: Colors.black),
                     ),
-                    const SizedBox(height: 60.0),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        prefixIcon: const Icon(Icons.lock),
-                        border: const OutlineInputBorder(),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.9),
-                      ),
-                      obscureText: true,
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.facebook, size: 30, color: Colors.blue),
                     ),
-                    const SizedBox(height: 40.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushReplacementNamed('/gusto');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14.0),
-                        backgroundColor: const Color.fromARGB(255, 181, 18, 6),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                // Register Link
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "If you don’t have an account ",
+                      style: GoogleFonts.gabarito(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        "Register here!",
+                        style: GoogleFonts.gabarito(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ),
-                      child: const Text(
-                        'Log In',
-                        style: TextStyle(fontSize: 16.0, color: Colors.white),
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    Center(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed("/forgotPass");
-                        },
-                        child: const Text(
-                          'Forgot Password?',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 181, 18, 6),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Row(
-                      children: [
-                        Expanded(child: Divider(color: Colors.white)),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child:
-                              Text('or', style: TextStyle(color: Colors.white)),
-                        ),
-                        Expanded(child: Divider(color: Colors.white)),
-                      ],
-                    ),
-                    const SizedBox(height: 20.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.facebook,
-                              color: Colors.blue, size: 30),
-                          onPressed: () {
-                            // Implement Facebook login
-                          },
-                        ),
-                        const SizedBox(width: 15.0),
-                        IconButton(
-                          icon: const Icon(Icons.g_mobiledata_rounded,
-                              color: Colors.green, size: 30),
-                          onPressed: () {
-                            // Implement Google login
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30.0),
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Don\'t have an account?',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              // Navigate to sign-up screen
-                            },
-                            child: const Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 181, 18, 6),
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
+                const SizedBox(height: 30),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

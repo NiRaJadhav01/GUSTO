@@ -1,210 +1,277 @@
-import 'dart:math';
+import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
 
   @override
-  State<ExploreScreen> createState() => _ExploreScreenState();
+  _ExploreScreenState createState() => _ExploreScreenState();
 }
 
-class _ExploreScreenState extends State<ExploreScreen> {
-  final List<Reel> reels = List.generate(
-    20,
-    (index) => Reel(
-      imageUrl: 'https://picsum.photos/seed/reel$index/500/800',
-      likes: 20000 + index * 100,
-      comments: 1500 + index * 50,
-    ),
-  );
+class _ExploreScreenState extends State<ExploreScreen>
+    with SingleTickerProviderStateMixin {
+  final List<String> images = [
+    'https://static.independent.co.uk/s3fs-public/thumbnails/image/2014/03/25/12/eiffel.jpg',
+    'https://cms.musafir.com/uploads/1920x1080_Beauty_of_Taj_Mahal_1_6ca4fe9fe7.jpg',
+    'https://cdn.mos.cms.futurecdn.net/5pCA2Sgpfj9Vu8XcALuMtb-1200-80.jpg',
+    'https://www.worldatlas.com/upload/f4/d8/7b/shutterstock-1397031029.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Sydney_Australia.%2821339175489%29.jpg/800px-Sydney_Australia.%2821339175489%29.jpg',
+    'https://i0.wp.com/www.touristegypt.com/wp-content/uploads/2023/01/Cairo-Luxor-and-Highlights-of-Egypt-tour-from-Eilat-or-Tel-Aviv-4-days-1-e1678279893887.jpg?fit=1200%2C558&ssl=1',
+    'https://cdn.britannica.com/36/162636-050-932C5D49/Colosseum-Rome-Italy.jpg',
+    'https://smilingway.cz/wp-content/uploads/2023/10/Amsterdam-za-1-den-1500x844.jpeg',
+  ];
+
+  String? selectedImage;
+  Offset? longPressPosition;
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 400),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void showCircularMenu(String image, Offset position) {
+    setState(() {
+      selectedImage = image;
+      longPressPosition = position;
+    });
+    _controller.forward(from: 0);
+  }
+
+  void closeCircularMenu() {
+    _controller.reverse;
+    setState(() {
+      selectedImage = null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        title: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          decoration: BoxDecoration(
-            color: Colors.grey[200],
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: const TextField(
+        title: ClayContainer(
+          spread: 8,
+          child: TextField(
             decoration: InputDecoration(
-              icon: Icon(Icons.search, color: Colors.grey),
-              hintText: 'Search...',
-              border: InputBorder.none,
+              prefixIcon: const Icon(Icons.search),
+              hintText: "Search",
+              hintStyle: const TextStyle(color: Colors.grey),
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: MasonryGridView.builder(
-          gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, // Three items per row
-          ),
-          mainAxisSpacing: 4,
-          crossAxisSpacing: 4,
-          itemCount: reels.length,
-          itemBuilder: (context, index) {
-            final reel = reels[index];
-            final randomHeight =
-                Random().nextInt(100) + 150.0; // Random height between 150-250
-
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ReelDetailScreen(reel: reel),
+      body: Stack(
+        children: [
+          // Grid of Images
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                childAspectRatio: 0.75,
+              ),
+              itemCount: images.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onLongPressStart: (details) {
+                    showCircularMenu(images[index], details.globalPosition);
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      images[index],
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Center(
+                          child: Icon(
+                            Icons.error,
+                            color: Colors.red,
+                            size: 40,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 );
               },
-              child: Container(
-                height: randomHeight, // Set random height for each card
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  color: Colors.grey[200],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12.0),
-                  child: Stack(
-                    children: [
-                      CachedNetworkImage(
-                        imageUrl: reel.imageUrl,
-                        placeholder: (context, url) => Container(
-                          color: Colors.grey[300],
-                          height: 200,
-                        ),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                        fit: BoxFit.cover,
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 6.0, horizontal: 8.0),
-                          decoration: const BoxDecoration(
-                            color: Colors.black54,
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(12.0),
-                              bottomRight: Radius.circular(12.0),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(Icons.favorite_border,
-                                      color: Colors.white, size: 16),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    '${reel.likes}',
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Icon(Icons.comment,
-                                      color: Colors.white, size: 16),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    '${reel.comments}',
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+            ),
+          ),
+
+          // Dark Overlay when menu is active
+          if (selectedImage != null)
+            GestureDetector(
+              onTap: closeCircularMenu,
+              child: AnimatedOpacity(
+                opacity: selectedImage != null ? 0.8 : 0.0,
+                duration: const Duration(milliseconds: 200),
+                child: Container(
+                  color: Colors.black.withOpacity(0.7),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+
+          // Circular Utilities Menu
+          if (selectedImage != null && longPressPosition != null)
+            Positioned(
+              top: longPressPosition!.dy - 100,
+              left: longPressPosition!.dx - 100,
+              child: ScaleTransition(
+                scale: CurvedAnimation(
+                  parent: _controller,
+                  curve: Curves.easeOutBack,
+                ),
+                child: CircularMenu(
+                  onClose: closeCircularMenu,
+                  onFavorite: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Added to Favorites!')),
+                    );
+                  },
+                  onSave: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Saved!')),
+                    );
+                  },
+                  onShare: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Shared!')),
+                    );
+                  },
+                ),
+              ),
+            ),
+        ],
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   currentIndex: 1,
-      //   selectedItemColor: Colors.black,
-      //   unselectedItemColor: Colors.grey,
-      //   showSelectedLabels: false,
-      //   showUnselectedLabels: false,
-      //   items: const [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       label: 'Home',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.explore),
-      //       label: 'Explore',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.video_collection),
-      //       label: 'Reels',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.shopping_bag),
-      //       label: 'Shop',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.person),
-      //       label: 'Profile',
-      //     ),
-      //   ],
-      //   onTap: (index) {
-      //     // Handle navigation
-      //   },
-      // ),
     );
   }
 }
 
-class ReelDetailScreen extends StatelessWidget {
-  final Reel reel;
+class CircularMenu extends StatelessWidget {
+  final VoidCallback onClose;
+  final VoidCallback onFavorite;
+  final VoidCallback onSave;
+  final VoidCallback onShare;
 
-  const ReelDetailScreen({super.key, required this.reel});
+  const CircularMenu({
+    super.key,
+    required this.onClose,
+    required this.onFavorite,
+    required this.onSave,
+    required this.onShare,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Reel Details'),
-      ),
-      body: Center(
-        child: CachedNetworkImage(
-          imageUrl: reel.imageUrl,
-          placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-          fit: BoxFit.contain,
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        // Background Circle
+        Container(
+          width: 200,
+          height: 200,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.4),
+                blurRadius: 20,
+                spreadRadius: 5,
+              ),
+            ],
+          ),
         ),
-      ),
+        // Favorite Button
+        Positioned(
+          top: 20,
+          child: CircularMenuButton(
+            icon: Icons.favorite,
+            color: Colors.red,
+            onPressed: onFavorite,
+          ),
+        ),
+        // Save Button
+        Positioned(
+          right: 20,
+          child: CircularMenuButton(
+            icon: Icons.save_alt,
+            color: Colors.blue,
+            onPressed: onSave,
+          ),
+        ),
+        // Share Button
+        Positioned(
+          bottom: 20,
+          child: CircularMenuButton(
+            icon: Icons.share,
+            color: Colors.green,
+            onPressed: onShare,
+          ),
+        ),
+        // Close Button
+        Positioned(
+          left: 20,
+          child: CircularMenuButton(
+            icon: Icons.close,
+            color: Colors.grey,
+            onPressed: onClose,
+          ),
+        ),
+      ],
     );
   }
 }
 
-class Reel {
-  final String imageUrl;
-  final int likes;
-  final int comments;
+class CircularMenuButton extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final VoidCallback onPressed;
 
-  Reel({
-    required this.imageUrl,
-    required this.likes,
-    required this.comments,
+  const CircularMenuButton({
+    super.key,
+    required this.icon,
+    required this.color,
+    required this.onPressed,
   });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: CircleAvatar(
+        radius: 30,
+        backgroundColor: color.withOpacity(0.15),
+        child: Icon(icon, color: color, size: 28),
+      ),
+    );
+  }
 }

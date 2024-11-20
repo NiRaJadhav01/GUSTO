@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:gusto/model/images.dart';
 
@@ -13,58 +14,50 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white10,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            leading: ClipOval(
-              child: Image.network(
-                "https://media.licdn.com/dms/image/v2/D4D03AQEoHKOvog00yA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1709236828250?e=2147483647&v=beta&t=qV9GSqCzPq0ilXCggGNDD6dG9_4rkT_eTWc4M2u-FTE",
-              ),
-            ),
-            title: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Hey There Shashi",
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-                Text(
-                  "Ready To Travel",
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-            actions: [
-              Container(
-                margin: const EdgeInsets.only(right: 8),
-                height: 50,
-                width: 50,
-                decoration: const BoxDecoration(
-                  color: Colors.black,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 2,
-                      offset: Offset(0, 1),
+            floating: true,
+            toolbarHeight: 135,
+            flexibleSpace: Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Text(
+                    "Hey There Shashi",
+                    style: TextStyle(
+                      fontSize: 16,
                     ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.soup_kitchen,
-                  color: Colors.white,
-                ),
+                  ),
+                  Container(
+                    height: 120,
+                    width: 120,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.network(
+                      "https://media.licdn.com/dms/image/v2/D4D03AQEoHKOvog00yA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1709236828250?e=2147483647&v=beta&t=qV9GSqCzPq0ilXCggGNDD6dG9_4rkT_eTWc4M2u-FTE",
+                    ),
+                  ),
+                  const Text(
+                    "Ready To Travel",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
           SliverAppBar(
-            expandedHeight: 200,
+            expandedHeight: 140,
             flexibleSpace: CarouselSlider(
               options: CarouselOptions(
-                height: 200.0,
+                height: 200,
                 viewportFraction: 0.8,
                 initialPage: 0,
                 enableInfiniteScroll: true,
@@ -86,7 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.symmetric(horizontal: 5.0),
                         decoration: BoxDecoration(
-                          color: Colors.amber,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Image.network(
@@ -101,138 +93,119 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           SliverList.builder(
-            itemCount: posts.length,
+            itemCount: postsModel.length,
             itemBuilder: (context, index) {
               return Container(
+                color: Colors.white10,
+                padding: const EdgeInsets.all(30),
                 margin: const EdgeInsets.only(bottom: 20),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //Profile for post
-                          Container(
-                            height: 45,
-                            width: 45,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Image.network(posts[index]["profile"]),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //Post Profile Name
-                              Text(
-                                posts[index]["name"],
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                ),
+                child: ClayContainer(
+                  color: Colors.blueGrey.shade50,
+                  spread: 12,
+                  depth: 100,
+                  borderRadius: 30,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //Profile for post
+                            Container(
+                              height: 45,
+                              width: 45,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
                               ),
-                              //Post Profile Loc
-                              Text(
-                                posts[index]["loc"],
-                                style: const TextStyle(
-                                  fontSize: 14,
+                              child:
+                                  Image.network(postsModel[index].profileImg),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //Post Profile Name
+                                Text(
+                                  postsModel[index].name,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              )
-                            ],
+                                //Post Profile Loc
+                                Text(
+                                  postsModel[index].location,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                )
+                              ],
+                            ),
+                            const Spacer(),
+                            const Icon(
+                              Icons.location_on,
+                              size: 30,
+                            )
+                          ],
+                        ),
+                      ),
+                      Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          //Post Image
+                          Container(
+                            alignment: Alignment.center,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Image.network(
+                              postsModel[index].postImg,
+                              fit: BoxFit.fill,
+                            ),
                           ),
-                          const Spacer(),
-                          const Icon(
-                            Icons.location_on,
-                            size: 30,
-                          )
+                          //Favourite On post Icon
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: GestureDetector(
+                              onTap: () {
+                                postsModel[index].isLike =
+                                    !postsModel[index].isLike;
+                                setState(() {});
+                              },
+                              child: postsModel[index].isLike
+                                  ? const Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                      shadows: [
+                                        BoxShadow(
+                                          blurRadius: 4,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
+                                      size: 30,
+                                    )
+                                  : const Icon(
+                                      Icons.favorite_border_outlined,
+                                      color: Colors.white,
+                                      shadows: [
+                                        BoxShadow(
+                                          blurRadius: 4,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
+                                      size: 30,
+                                    ),
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                    Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        //Post Image
-                        Container(
-                          alignment: Alignment.center,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Image.network(
-                            posts[index]["post"],
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        //Favourite On post Icon
-                        const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(
-                            Icons.favorite_outline,
-                            color: Colors.white,
-                            shadows: [
-                              BoxShadow(
-                                blurRadius: 4,
-                                offset: Offset(0, 2),
-                              )
-                            ],
-                            size: 30,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          style: const ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Colors.white),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            "Bestseller",
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                        ElevatedButton(
-                          style: const ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Colors.white),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            "Chef's Special",
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                        ElevatedButton(
-                          style: const ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Colors.white),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            "Review",
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

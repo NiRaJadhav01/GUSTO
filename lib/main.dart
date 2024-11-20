@@ -4,7 +4,7 @@ import 'package:gusto/view/login_screen.dart';
 import 'package:gusto/view/settings_screen.dart';
 import 'package:gusto/view/splash_screen.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const MainApp());
 }
 

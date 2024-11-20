@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:gusto/view/explore_screen.dart';
 import 'package:gusto/view/home_screen.dart';
 import 'package:gusto/view/location_screen.dart';
+import 'package:gusto/view/post_screen.dart';
 import 'package:gusto/view/profile_screen.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Gusto extends StatefulWidget {
   const Gusto({super.key});
@@ -15,12 +19,27 @@ class Gusto extends StatefulWidget {
 class _GustoState extends State<Gusto> {
   int screenIndex = 0;
   List<Widget> screens = [
-    HomeScreen(),
-    ExploreScreen(),
-    Container(),
-    GustoGuideScreen(),
-    ProfileScreen(),
+    const HomeScreen(),
+    const ExploreScreen(),
+    const PostScreen(),
+    const LocationScreen(),
+    const ProfileScreen(),
   ];
+
+  File? postImage;
+
+  final ImagePicker picker = ImagePicker();
+
+  // Pick Profile Picture
+  Future<void> pickImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        postImage = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,12 +87,14 @@ class _GustoState extends State<Gusto> {
               text: 'Post',
               onPressed: () {
                 screenIndex = 2;
+                pickImage();
+
                 setState(() {});
               },
             ),
             GButton(
-              icon: Icons.share_location_rounded,
-              text: 'Hotels',
+              icon: Icons.soup_kitchen,
+              text: 'Guide',
               onPressed: () {
                 screenIndex = 3;
                 setState(() {});
