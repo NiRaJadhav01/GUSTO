@@ -4,115 +4,103 @@ class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  void _logout(BuildContext context) {
-    // Implement logout functionality here
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Logout'),
-        content: const Text('Are you sure you want to log out?'),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        elevation: 0,
         actions: [
-          TextButton(
+          IconButton(
+            icon: const Icon(Icons.close, color: Colors.white),
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                '/login',
-                (route) => false,
-              );
-            },
-            child: const Text('Logout'),
           ),
         ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Profile Section
+            const Row(
+              children: [
+                CircleAvatar(
+                  radius: 30,
+                  backgroundImage: AssetImage(
+                      'assets/profile_image.png'), // Replace with your image asset
+                ),
+                SizedBox(width: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Jess Bailey',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      '@jessbailey',
+                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
+            // Settings Options
+            _buildSettingsOption('Account'),
+            _buildSettingsOption('Language'),
+            _buildSettingsOption('Dark Mode'),
+            _buildSettingsOption('Email settings'),
+            _buildSettingsOption('Blocked user'),
+            _buildSettingsOption('Security'),
+            const Divider(color: Colors.grey),
+            _buildSettingsOption('Whats new'),
+            _buildSettingsOption('FAQ'),
+            _buildSettingsOption('Terms of Service'),
+            _buildSettingsOption('Privacy Policy'),
+            const SizedBox(height: 30),
+            // Logout Button
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  iconColor: Colors.red,
+                  minimumSize: const Size(double.infinity, 48),
+                ),
+                onPressed: () {
+                  // Add logout logic here
+                },
+                child: const Text('Logout'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
+  Widget _buildSettingsOption(String title) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      title: Text(
+        title,
+        style: const TextStyle(color: Colors.white, fontSize: 16),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          // Account Settings
-          ListTile(
-            leading: const Icon(Icons.person),
-            title: const Text('Account Settings'),
-            onTap: () {
-              // Navigate to account settings
-            },
-          ),
-          const Divider(),
-
-          // Saved Posts
-          ListTile(
-            leading: const Icon(Icons.bookmark),
-            title: const Text('Saved Posts'),
-            onTap: () {
-              // Navigate to saved posts
-            },
-          ),
-          const Divider(),
-
-          // Privacy Settings
-          ListTile(
-            leading: const Icon(Icons.lock),
-            title: const Text('Privacy Settings'),
-            onTap: () {
-              // Navigate to privacy settings
-            },
-          ),
-          const Divider(),
-
-          // Notifications Settings
-          ListTile(
-            leading: const Icon(Icons.notifications),
-            title: const Text('Notifications'),
-            onTap: () {
-              // Navigate to notifications settings
-            },
-          ),
-          const Divider(),
-
-          // Security
-          ListTile(
-            leading: const Icon(Icons.security),
-            title: const Text('Security'),
-            onTap: () {
-              // Navigate to security settings
-            },
-          ),
-          const Divider(),
-
-          // About
-          ListTile(
-            leading: const Icon(Icons.info),
-            title: const Text('About'),
-            onTap: () {
-              // Navigate to about section
-            },
-          ),
-          const Divider(),
-
-          // Logout Option
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
-            onTap: () => _logout(context),
-          ),
-        ],
-      ),
+      trailing:
+          const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
+      onTap: () {
+        // Add navigation logic here
+      },
     );
   }
 }

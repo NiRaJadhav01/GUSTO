@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
-import 'package:gusto/model/images.dart';
+import 'package:gusto/model/posts_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

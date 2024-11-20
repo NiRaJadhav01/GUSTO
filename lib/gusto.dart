@@ -44,13 +44,15 @@ class _GustoState extends State<Gusto> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[screenIndex],
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8),
-        padding: const EdgeInsets.all(8),
+      bottomNavigationBar: Container(
         height: 80,
-        decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(30)),
+        decoration: const BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
         child: GNav(
           haptic: true, // haptic feedback
           tabBorderRadius: 15,
