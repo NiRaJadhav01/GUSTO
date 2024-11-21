@@ -10,23 +10,94 @@ class RestoCards {
   });
 }
 
-List<RestoCards> italyRestaurants = [
-  RestoCards(
-    restoName: "Casa Perbellini",
-    type: "Verona",
-    imgURL:
-        "https://imgs.search.brave.com/7bIjpqbkAqyFZ0y01DZYMnOyCMiOP2_2DFPonrfjdqM/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTQ0/NjQ3ODgyNy9waG90/by9hLWNoZWYtaXMt/Y29va2luZy1pbi1o/aXMtcmVzdGF1cmFu/dHMta2l0Y2hlbi5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/andLSm1HRXJyTGUy/WHNUV05ZRUV5aU5p/Y3VkWVZBNGo4anZu/VGlKZHA1OD0",
-  ),
-  RestoCards(
-    restoName: "Campo del Drago",
-    type: "Montalcino",
-    imgURL:
-        "https://imgs.search.brave.com/IjcCs5fCuXeG7kr7cZPRG2LGzIKH55pTQNH6VKWdc9I/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTE3/MTc4NzQyNi9waG90/by9lbmpveWluZy1s/dW5jaC13aXRoLWZy/aWVuZHMuanBnP3M9/NjEyeDYxMiZ3PTAm/az0yMCZjPTM4ZlJT/Wnl2dmRKNWdiLVkx/OU5qQlF4ckFqaHlF/MUd1M0RrOXBBeHU2/cTQ9",
-  ),
-  RestoCards(
-    restoName: "Villa Elena",
-    type: "Bergamo",
-    imgURL:
-        "https://imgs.search.brave.com/qtMtsqL_kDoPkiKbEvYjs8HcFZSFqubjvou-lG5UvBo/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTA0/NzA0MTE3L3Bob3Rv/L3Jlc3RhdXJhbnQt/cGxhdGVzLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1NaEZk/Tl9xVmd6b0hvdi1r/Z0Z4MHFXU1cwblpo/dDRsWlYxemluQzNF/YTQ0PQ",
-  ),
-];
+Map<String, List<RestoCards>> restaurantsByLocation = {
+  "Italy": [
+    RestoCards(
+      restoName: "Casa Perbellini",
+      type: "Fine Dining",
+      imgURL:
+          "https://picsum.photos/200/300?random=1", // Example for Fine Dining
+    ),
+    RestoCards(
+      restoName: "Campo del Drago",
+      type: "Italian",
+      imgURL:
+          "https://picsum.photos/200/300?random=2", // Example for Italian cuisine
+    ),
+    RestoCards(
+      restoName: "Villa Elena",
+      type: "Traditional",
+      imgURL:
+          "https://picsum.photos/200/300?random=3", // Example for Traditional cuisine
+    ),
+  ],
+  "Tokyo": [
+    RestoCards(
+      restoName: "Sukiyabashi Jiro",
+      type: "Sushi",
+      imgURL: "https://picsum.photos/200/300?random=4", // Sushi restaurant
+    ),
+    RestoCards(
+      restoName: "Narisawa",
+      type: "Japanese Fine Dining",
+      imgURL: "https://picsum.photos/200/300?random=5", // Japanese fine dining
+    ),
+    RestoCards(
+      restoName: "Den",
+      type: "Modern Japanese",
+      imgURL: "https://picsum.photos/200/300?random=6", // Modern Japanese
+    ),
+  ],
+  "New York": [
+    RestoCards(
+      restoName: "Eleven Madison Park",
+      type: "Fine Dining",
+      imgURL: "https://picsum.photos/200/300?random=7", // Fine Dining
+    ),
+    RestoCards(
+      restoName: "Per Se",
+      type: "Contemporary American",
+      imgURL: "https://picsum.photos/200/300?random=8", // Contemporary American
+    ),
+    RestoCards(
+      restoName: "Le Bernardin",
+      type: "French Seafood",
+      imgURL: "https://picsum.photos/200/300?random=9", // French Seafood
+    ),
+  ],
+  "Paris": [
+    RestoCards(
+      restoName: "Le Meurice",
+      type: "Luxury French",
+      imgURL: "https://picsum.photos/200/300?random=10", // Luxury French
+    ),
+    RestoCards(
+      restoName: "L'Arpège",
+      type: "Vegetarian Fine Dining",
+      imgURL:
+          "https://picsum.photos/200/300?random=11", // Vegetarian Fine Dining
+    ),
+    RestoCards(
+      restoName: "Pierre Gagnaire",
+      type: "Modern French",
+      imgURL: "https://picsum.photos/200/300?random=12", // Modern French
+    ),
+  ],
+  "London": [
+    RestoCards(
+      restoName: "The Ledbury",
+      type: "Modern European",
+      imgURL: "https://picsum.photos/200/300?random=13", // Modern European
+    ),
+    RestoCards(
+      restoName: "Dinner by Heston Blumenthal",
+      type: "Experimental",
+      imgURL: "https://picsum.photos/200/300?random=14", // Experimental cuisine
+    ),
+    RestoCards(
+      restoName: "Core by Clare Smyth",
+      type: "Contemporary British",
+      imgURL: "https://picsum.photos/200/300?random=15", // Contemporary British
+    ),
+  ],
+};

@@ -11,10 +11,6 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-  List<String> locality = [
-    "Italy",
-    "Tokyo",
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,93 +37,89 @@ class _LocationScreenState extends State<LocationScreen> {
               ),
             ),
           ),
-          SliverList.builder(
-            itemCount: locality.length,
-            itemBuilder: (context, index) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text(
-                      locality[index],
-                      style: GoogleFonts.gabarito(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w400,
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                String location = restaurantsByLocation.keys.elementAt(index);
+                List<RestoCards> restaurants =
+                    restaurantsByLocation[location] ?? [];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 16),
+                      child: Text(
+                        location,
+                        style: GoogleFonts.gabarito(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
-                  ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(left: 8, bottom: 8),
-                  //   child: Text(
-                  //     "Texas",
-                  //     style: GoogleFonts.gabarito(
-                  //       fontSize: 18,
-                  //     ),
-                  //   ),
-                  // ),
-                  //ROW1
-                  SizedBox(
-                    height: 270,
-                    width: MediaQuery.of(context).size.width,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: italyRestaurants.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ClayContainer(
-                            spread: 4,
-                            borderRadius: 20,
-                            width: 170,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  clipBehavior: Clip.antiAlias,
-                                  height: 170,
-                                  width: 170,
-                                  decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.only(
+                    SizedBox(
+                      height: 270,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: restaurants.length,
+                        itemBuilder: (context, index) {
+                          RestoCards resto = restaurants[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ClayContainer(
+                              spread: 4,
+                              borderRadius: 20,
+                              width: 170,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    clipBehavior: Clip.antiAlias,
+                                    height: 170,
+                                    width: 170,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20)),
-                                  ),
-                                  child: Image.network(
-                                    italyRestaurants[index].imgURL,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Text(
-                                    italyRestaurants[index].restoName,
-                                    style: GoogleFonts.gabarito(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
+                                        topRight: Radius.circular(20),
+                                      ),
+                                    ),
+                                    child: Image.network(
+                                      resto.imgURL,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Text(
-                                    italyRestaurants[index].type,
-                                    style: GoogleFonts.gabarito(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w200,
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: Text(
+                                      resto.restoName,
+                                      style: GoogleFonts.gabarito(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: Text(
+                                      resto.type,
+                                      style: GoogleFonts.gabarito(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w200,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              );
-            },
-          )
+                  ],
+                );
+              },
+              childCount: restaurantsByLocation.keys.length,
+            ),
+          ),
         ],
       ),
     );
