@@ -1,4 +1,3 @@
-import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gusto/model/favorites_model.dart';
@@ -154,33 +153,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(
-                              onTap: () {
-                                isFav = false;
-                                setState(() {});
-                              },
-                              child: isFav
-                                  ? const Icon(
-                                      Icons.favorite,
-                                      color: Colors.red,
-                                      shadows: [
-                                        BoxShadow(
-                                          blurRadius: 4,
-                                          offset: Offset(0, 2),
-                                        ),
-                                      ],
-                                      size: 30,
-                                    )
-                                  : const Icon(
-                                      Icons.favorite_border_outlined,
-                                      color: Colors.white,
-                                      shadows: [
-                                        BoxShadow(
-                                          blurRadius: 4,
-                                          offset: Offset(0, 2),
-                                        ),
-                                      ],
-                                      size: 30,
-                                    )),
+                            onTap: () {
+                              setState(() {
+                                favoriteList.removeAt(index);
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Removed from Favourites")),
+                              );
+                            },
+                            child: isFav
+                                ? const Icon(
+                                    Icons.favorite,
+                                    color: Colors.red,
+                                    shadows: [
+                                      BoxShadow(
+                                        blurRadius: 4,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                    size: 30,
+                                  )
+                                : const Icon(
+                                    Icons.favorite_border_outlined,
+                                    color: Colors.white,
+                                    shadows: [
+                                      BoxShadow(
+                                        blurRadius: 4,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                    size: 30,
+                                  ),
+                          ),
                         ),
                       ],
                     ),

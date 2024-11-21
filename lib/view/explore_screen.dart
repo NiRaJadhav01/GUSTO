@@ -153,11 +153,12 @@ class _ExploreScreenState extends State<ExploreScreen>
                 child: CircularMenu(
                   onClose: closeCircularMenu,
                   onFavorite: () {
-                    favoriteList.add(FavoritesModel(
+                    favoriteList.add(
+                      FavoritesModel(
                         imageUrl: selectedImage.toString(),
-                        title: "",
-                        description: "",
-                        isLiked: "true"));
+                        isLiked: true,
+                      ),
+                    );
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Added to Favorites!')),
                     );
