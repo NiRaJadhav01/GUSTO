@@ -12,6 +12,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  bool isFav = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,20 +123,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 200,
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: favoriteList.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClayContainer(
-                        spread: 1,
-                        borderRadius: 20,
-                        width: 250,
-                        color: Colors.grey,
-                        child: Image.network(favoriteList[index].imageUrl),
-                      ),
-                    );
-                  }),
+                scrollDirection: Axis.horizontal,
+                itemCount: favoriteList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        Container(
+                          height: 200,
+                          width: 300,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                blurRadius: 0.8,
+                                spreadRadius: 1,
+                                color: Colors.grey,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: Image.network(
+                            favoriteList[index].imageUrl,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                              onTap: () {
+                                isFav = false;
+                                setState(() {});
+                              },
+                              child: isFav
+                                  ? const Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                      shadows: [
+                                        BoxShadow(
+                                          blurRadius: 4,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
+                                      size: 30,
+                                    )
+                                  : const Icon(
+                                      Icons.favorite_border_outlined,
+                                      color: Colors.white,
+                                      shadows: [
+                                        BoxShadow(
+                                          blurRadius: 4,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
+                                      size: 30,
+                                    )),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             )
           ],
         ),
