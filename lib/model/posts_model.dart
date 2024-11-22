@@ -3,12 +3,14 @@ class PostsModel {
   String name;
   String location;
   String postImg;
+  int count = 0;
   bool isLike = false;
   PostsModel(
       {required this.profileImg,
       required this.name,
       required this.location,
       required this.postImg,
+      required this.count,
       required this.isLike});
 }
 
@@ -20,6 +22,7 @@ List<PostsModel> postsModel = [
       location: "Maldives",
       postImg:
           "https://imgs.search.brave.com/kawrtbnBAaNWbWe5N-zSEszPMswUTWKu0Vu-zKBaC0g/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvNjIz/MzA5MzQwL3Bob3Rv/L21hbGRpdmVzLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz03/NHZQU2l1eXJqSVJm/b25adXhXZkQwU0Jm/a3lrTTNJbUZSZDlP/NGZZa0FjPQ",
+      count: 0,
       isLike: false),
   PostsModel(
       profileImg:
@@ -28,6 +31,7 @@ List<PostsModel> postsModel = [
       location: "Brazil",
       postImg:
           "https://imgs.search.brave.com/Z3Qwu5SgNu9VIGKvuxNG6sh0P9FEP6rwypdV2hMmH-U/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9waG90/b3Muc211Z211Zy5j/b20vVHJhdmVsL0lj/ZWxhbmQvSWNlbGFu/ZC1lYm9vay9FYm9v/ay1sYXJnZS9pLXY2/UG1wUFcvMS9ML0Yy/MDglMjBsLUwuanBn",
+      count: 0,
       isLike: false)
 ];
 

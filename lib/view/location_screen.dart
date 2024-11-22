@@ -1,8 +1,8 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gusto/model/favorites_model.dart';
 import 'package:gusto/model/resto_cards.dart';
+import 'package:gusto/view/details_screen.dart';
 
 class LocationScreen extends StatefulWidget {
   const LocationScreen({super.key});
@@ -69,187 +69,119 @@ class _LocationScreenState extends State<LocationScreen> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: GestureDetector(
+                                child: // Wrap the restaurant card in Hero widget
+                                    GestureDetector(
                                   onTap: () {
-                                    // Open the bottom sheet when the card is tapped
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      backgroundColor: Colors.black,
-                                      builder: (context) {
-                                        return Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              2,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(15),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  clipBehavior: Clip.antiAlias,
-                                                  height: 200,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(20),
-                                                    topRight:
-                                                        Radius.circular(20),
-                                                  )),
-                                                  child: Image.network(
-                                                    resto.imgURL,
-                                                    fit: BoxFit.cover,
-                                                    height: 250,
-                                                    width: double.infinity,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 16),
-                                                Text(
-                                                  resto.restoName,
-                                                  style: GoogleFonts.gabarito(
-                                                    fontSize: 24,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 8),
-                                                Text(
-                                                  resto.type,
-                                                  style: GoogleFonts.gabarito(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w300,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 16),
-                                                Text(
-                                                  "Details about the restaurant here.",
-                                                  style: GoogleFonts.gabarito(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                // Add more details here (e.g., menu, reviews, etc.)
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      },
+                                    // Navigate to a detail page with Hero transition
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailScreen(
+                                            resto:
+                                                resto), // Replace with your detail screen
+                                      ),
                                     );
                                   },
-                                  child: ClayContainer(
-                                    spread: 4,
-                                    borderRadius: 20,
-                                    width: 170,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          clipBehavior: Clip.antiAlias,
-                                          height: 170,
-                                          width: 170,
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20),
-                                              topRight: Radius.circular(20),
+                                  child: Hero(
+                                    tag: resto
+                                        .imgURL, // Use a unique tag (e.g., resto's image URL)
+                                    child: ClayContainer(
+                                      spread: 4,
+                                      borderRadius: 20,
+                                      width: 170,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            clipBehavior: Clip.antiAlias,
+                                            height: 170,
+                                            width: 170,
+                                            decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(20),
+                                                topRight: Radius.circular(20),
+                                              ),
+                                            ),
+                                            child: Image.network(
+                                              resto.imgURL,
+                                              fit: BoxFit.cover,
                                             ),
                                           ),
-                                          child: Image.network(
-                                            resto.imgURL,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8),
-                                          child: Text(
-                                            resto.restoName,
-                                            style: GoogleFonts.gabarito(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 8),
+                                            child: Text(
+                                              resto.restoName,
+                                              style: GoogleFonts.gabarito(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8),
-                                          child: Text(
-                                            resto.type,
-                                            style: GoogleFonts.gabarito(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w200,
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 8),
+                                            child: Text(
+                                              resto.type,
+                                              style: GoogleFonts.gabarito(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w200,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               //Favourite On post Icon
-                              Padding(
-                                  padding: const EdgeInsets.all(15),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        // Toggle the like status
-                                        restaurants[index].isLike =
-                                            !restaurants[index].isLike;
+                              // Padding(
+                              //   padding: const EdgeInsets.all(15),
+                              //   child: GestureDetector(
+                              //     onTap: () {
+                              //       setState(() {
+                              //         // Toggle the like status
+                              //         restaurants[index].isLike =
+                              //             !restaurants[index].isLike;
 
-                                        // If the card is liked, add it to the favoriteList
-                                        if (restaurants[index].isLike) {
-                                          favoriteList.add(
-                                            FavoritesModel(
-                                              imageUrl:
-                                                  restaurants[index].imgURL,
-                                              isLiked: true,
-                                            ),
-                                          );
-                                        } else {
-                                          // If it's unliked, remove it from the favoriteList
-                                          favoriteList.removeWhere((favorite) =>
-                                              favorite.imageUrl ==
-                                              restaurants[index].imgURL);
-                                        }
-                                      });
-                                    },
-                                    child: resto.isLike
-                                        ? const Icon(
-                                            Icons.favorite,
-                                            color: Colors.red,
-                                            shadows: [
-                                              BoxShadow(
-                                                blurRadius: 4,
-                                                offset: Offset(0, 2),
-                                              ),
-                                            ],
-                                            size: 30,
-                                          )
-                                        : const Icon(
-                                            Icons.favorite_border_outlined,
-                                            color: Colors.white,
-                                            shadows: [
-                                              BoxShadow(
-                                                blurRadius: 4,
-                                                offset: Offset(0, 2),
-                                              ),
-                                            ],
-                                            size: 30,
-                                          ),
-                                  )),
+                              //         // If the card is liked, add it to the favoriteList
+                              //         if (restaurants[index].isLike) {
+                              //
+                              //         } else {
+                              //           // If it's unliked, remove it from the favoriteList
+                              //           favoriteList.removeWhere((favorite) =>
+                              //               favorite.imageUrl ==
+                              //               restaurants[index].imgURL);
+                              //         }
+                              //       });
+                              //     },
+                              //     child: resto.isLike
+                              //         ? const Icon(
+                              //             Icons.favorite,
+                              //             color: Colors.red,
+                              //             shadows: [
+                              //               BoxShadow(
+                              //                 blurRadius: 4,
+                              //                 offset: Offset(0, 2),
+                              //               ),
+                              //             ],
+                              //             size: 30,
+                              //           )
+                              //         : const Icon(
+                              //             Icons.favorite_border_outlined,
+                              //             color: Colors.white,
+                              //             shadows: [
+                              //               BoxShadow(
+                              //                 blurRadius: 4,
+                              //                 offset: Offset(0, 2),
+                              //               ),
+                              //             ],
+                              //             size: 30,
+                              //           ),
+                              //   ),
+                              // ),
                             ],
                           );
                         },

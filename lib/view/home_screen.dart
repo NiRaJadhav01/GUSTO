@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gusto/model/posts_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -169,38 +170,61 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           //Favourite On post Icon
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: GestureDetector(
-                              onTap: () {
-                                postsModel[index].isLike =
-                                    !postsModel[index].isLike;
-                                setState(() {});
-                              },
-                              child: postsModel[index].isLike
-                                  ? const Icon(
-                                      Icons.favorite,
-                                      color: Colors.red,
-                                      shadows: [
-                                        BoxShadow(
-                                          blurRadius: 4,
-                                          offset: Offset(0, 2),
-                                        ),
-                                      ],
-                                      size: 30,
-                                    )
-                                  : const Icon(
-                                      Icons.favorite_border_outlined,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Text(
+                                  "Liked by ${postsModel[index].count}",
+                                  style: GoogleFonts.gabarito(
+                                      fontSize: 18,
                                       color: Colors.white,
-                                      shadows: [
-                                        BoxShadow(
-                                          blurRadius: 4,
-                                          offset: Offset(0, 2),
+                                      shadows: const [
+                                        BoxShadow(offset: Offset(1, 1))
+                                      ]),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    postsModel[index].isLike =
+                                        !postsModel[index].isLike;
+                                    if (postsModel[index].isLike == true) {
+                                      postsModel[index].count++;
+                                    }
+                                    if (postsModel[index].isLike == false) {
+                                      postsModel[index].count--;
+                                    }
+                                    setState(() {});
+                                  },
+                                  child: postsModel[index].isLike
+                                      ? const Icon(
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                          shadows: [
+                                            BoxShadow(
+                                              blurRadius: 4,
+                                              offset: Offset(0, 2),
+                                            ),
+                                          ],
+                                          size: 30,
+                                        )
+                                      : const Icon(
+                                          Icons.favorite_border_outlined,
+                                          color: Colors.white,
+                                          shadows: [
+                                            BoxShadow(
+                                              blurRadius: 4,
+                                              offset: Offset(0, 2),
+                                            ),
+                                          ],
+                                          size: 30,
                                         ),
-                                      ],
-                                      size: 30,
-                                    ),
-                            ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

@@ -5,8 +5,8 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:gusto/view/explore_screen.dart';
 import 'package:gusto/view/home_screen.dart';
 import 'package:gusto/view/location_screen.dart';
-import 'package:gusto/view/post_screen.dart';
 import 'package:gusto/view/profile_screen.dart';
+import 'package:gusto/view/reel_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Gusto extends StatefulWidget {
@@ -21,7 +21,7 @@ class _GustoState extends State<Gusto> {
   List<Widget> screens = [
     const HomeScreen(),
     const ExploreScreen(),
-    const PostScreen(),
+    const ReelsScreen(),
     const LocationScreen(),
     const ProfileScreen(),
   ];
@@ -85,11 +85,10 @@ class _GustoState extends State<Gusto> {
               },
             ),
             GButton(
-              icon: Icons.add,
-              text: 'Post',
+              icon: Icons.slow_motion_video,
+              text: 'Reels',
               onPressed: () {
                 screenIndex = 2;
-                pickImage();
 
                 setState(() {});
               },

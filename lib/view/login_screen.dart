@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gusto/firebase_auth.dart';
+import 'package:gusto/view/register_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool toggleV = false;
+  final FirebaseAuthService _authService = FirebaseAuthService();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -10,14 +22,7 @@ class LoginScreen extends StatelessWidget {
       body: Container(
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
-          gradient: RadialGradient(
-            center: const Alignment(-0.4, 0.8),
-            radius: 1,
-            colors: [
-              Colors.indigo.shade200,
-              Colors.lime.shade50,
-            ],
-          ),
+          color: Colors.black,
         ),
         child: SingleChildScrollView(
           child: Padding(
@@ -28,10 +33,11 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 60),
                 Image.asset(
                   "assets/Logo.png",
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
                 // Email TextField
                 TextField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     hintText: "Email",
                     hintStyle: const TextStyle(color: Colors.grey),
@@ -46,7 +52,8 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 // Password TextField
                 TextField(
-                  obscureText: true,
+                  controller: _passwordController,
+                  obscureText: toggleV,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
@@ -56,9 +63,14 @@ class LoginScreen extends StatelessWidget {
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    suffixIcon: const Icon(
-                      Icons.visibility_off,
-                      color: Colors.grey,
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        toggleV = !toggleV;
+                        setState(() {});
+                      },
+                      child: toggleV
+                          ? const Icon(Icons.visibility_off)
+                          : const Icon(Icons.visibility),
                     ),
                   ),
                 ),
@@ -67,11 +79,13 @@ class LoginScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Implement password recovery
+                    },
                     child: Text(
                       "Recover Password?",
                       style: GoogleFonts.gabarito(
-                        color: Colors.grey.shade600,
+                        color: Colors.grey.shade400,
                       ),
                     ),
                   ),
@@ -79,14 +93,44 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 // Sign In Button
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil("/gusto",
-                        (route) {
-                      return false;
-                    });
+                  onPressed: () async {
+                    String email = _emailController.text.trim();
+                    String password = _passwordController.text.trim();
+
+                    if (email.isEmpty || password.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content:
+                              Text("Please enter both email and password."),
+                        ),
+                      );
+                      return;
+                    }
+
+                    try {
+                      await _authService.signInWithEmailAndPassword(
+                        email,
+                        password,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Login Successful!"),
+                        ),
+                      );
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        "/gusto",
+                        (route) => false,
+                      );
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(e.toString()),
+                        ),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.indigo.shade500,
+                    backgroundColor: Colors.black,
                     shadowColor: Colors.grey,
                     minimumSize: const Size(400, 50),
                     shape: RoundedRectangleBorder(
@@ -146,7 +190,15 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const RegisterScreen();
+                            },
+                          ),
+                        );
+                      },
                       child: Text(
                         "Register here!",
                         style: GoogleFonts.gabarito(

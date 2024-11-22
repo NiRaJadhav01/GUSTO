@@ -8,4 +8,4 @@ class FavoritesModel {
   });
 }
 
-List<FavoritesModel> favoriteList = [];
+List<dynamic> favoriteList = [];
