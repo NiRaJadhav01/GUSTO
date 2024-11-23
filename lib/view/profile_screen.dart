@@ -97,8 +97,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     log("URL: ${response!['profileImageUrl']}");
 
     setState(() {});
-
-    //  for(var in res)
   }
 
   bool isFav = true;
@@ -121,15 +119,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> fetchData() async {
-      DocumentSnapshot response = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .get();
-      log("NAME: ${response['name']}");
-      log("URL: ${response['profileImageUrl']}");
-    }
-
     return Scaffold(
       appBar: AppBar(
         actions: [

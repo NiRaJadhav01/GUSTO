@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clay_containers/clay_containers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gusto/model/posts_model.dart';
@@ -73,6 +77,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  DocumentSnapshot? response;
+
+  Future<void> fetchData() async {
+    response = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    log("NAME: ${response!['name']}");
+    log("URL: ${response!['profileImageUrl']}");
+    log("Hey There ${response!['name'].toString().split(" ")}");
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,9 +110,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Text(
-                    "Hey There Shashi",
-                    style: TextStyle(
+                  Text(
+                    "Hey There ${response!['name']}",
+                    style: GoogleFonts.gabarito(
                       fontSize: 16,
                     ),
                   ),
@@ -102,12 +125,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       shape: BoxShape.circle,
                     ),
                     child: Image.network(
-                      "https://media.licdn.com/dms/image/v2/D4D03AQEoHKOvog00yA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1709236828250?e=2147483647&v=beta&t=qV9GSqCzPq0ilXCggGNDD6dG9_4rkT_eTWc4M2u-FTE",
+                      "${response!["profileImageUrl"]}",
                     ),
                   ),
-                  const Text(
+                  Text(
                     "Ready To Travel",
-                    style: TextStyle(
+                    style: GoogleFonts.gabarito(
                       fontSize: 16,
                     ),
                   ),
