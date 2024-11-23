@@ -16,7 +16,7 @@ class _ExploreScreenState extends State<ExploreScreen>
     'https://cms.musafir.com/uploads/1920x1080_Beauty_of_Taj_Mahal_1_6ca4fe9fe7.jpg',
     'https://cdn.mos.cms.futurecdn.net/5pCA2Sgpfj9Vu8XcALuMtb-1200-80.jpg',
     'https://www.worldatlas.com/upload/f4/d8/7b/shutterstock-1397031029.jpg',
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Sydney_Australia.%2821339175489%29.jpg/800px-Sydney_Australia.%2821339175489%29.jpg',
+    'https://www.ft.com/__origami/service/image/v2/images/raw/https://s3-eu-west-1.amazonaws.com/htsi-ez-prod/ez/images/8/9/6/4/974698-1-eng-GB/main_92676b45-5b17-406d-8e56-c268437e8dac.jpg?height=930&dpr=1&format=jpg&source=htsi',
     'https://i0.wp.com/www.touristegypt.com/wp-content/uploads/2023/01/Cairo-Luxor-and-Highlights-of-Egypt-tour-from-Eilat-or-Tel-Aviv-4-days-1-e1678279893887.jpg?fit=1200%2C558&ssl=1',
     'https://cdn.britannica.com/36/162636-050-932C5D49/Colosseum-Rome-Italy.jpg',
     'https://smilingway.cz/wp-content/uploads/2023/10/Amsterdam-za-1-den-1500x844.jpeg',
@@ -24,6 +24,7 @@ class _ExploreScreenState extends State<ExploreScreen>
 
   String? selectedImage;
   Offset? longPressPosition;
+  String? actionMessage; // Variable to hold the action message
   late AnimationController _controller;
 
   @override
@@ -50,9 +51,10 @@ class _ExploreScreenState extends State<ExploreScreen>
   }
 
   void closeCircularMenu() {
-    _controller.reverse;
+    _controller.reverse();
     setState(() {
       selectedImage = null;
+      actionMessage = null; // Clear message when menu is closed
     });
   }
 
@@ -159,20 +161,47 @@ class _ExploreScreenState extends State<ExploreScreen>
                         isLiked: true,
                       ),
                     );
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Added to Favorites!')),
-                    );
+                    setState(() {
+                      actionMessage = "Added to Favorites!"; // Display message
+                    });
                   },
                   onSave: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Saved!')),
-                    );
+                    setState(() {
+                      actionMessage = "Saved!"; // Display message
+                    });
                   },
                   onShare: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Shared!')),
-                    );
+                    setState(() {
+                      actionMessage = "Shared!"; // Display message
+                    });
                   },
+                ),
+              ),
+            ),
+
+          // Display action message in the center of the screen
+          if (actionMessage != null)
+            Positioned(
+              top: MediaQuery.of(context).size.height / 2 -
+                  30, // Center vertically
+              left: MediaQuery.of(context).size.width / 2 -
+                  100, // Center horizontally
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    actionMessage!,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
               ),
             ),

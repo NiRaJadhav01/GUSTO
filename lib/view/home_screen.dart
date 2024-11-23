@@ -3,6 +3,67 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gusto/model/posts_model.dart';
+import 'package:gusto/model/resto_cards.dart';
+
+Widget buildLocationBottomSheet(BuildContext context, RestoCards resto) {
+  return Container(
+    height: MediaQuery.of(context).size.height / 2,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(30),
+      color: Colors.black,
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            clipBehavior: Clip.antiAlias,
+            height: 200,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: Image.network(
+              resto.imgURL,
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            resto.restoName,
+            style: GoogleFonts.gabarito(
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            resto.type,
+            style: GoogleFonts.gabarito(
+              fontSize: 16,
+              fontWeight: FontWeight.w300,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            "Details about the Place are here.",
+            style: GoogleFonts.gabarito(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -147,10 +208,28 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.location_on,
-                              size: 30,
-                            )
+                            GestureDetector(
+                              onTap: () {
+                                RestoCards resto = RestoCards(
+                                  restoName: postsModel[index].location,
+                                  imgURL: postsModel[index].postImg,
+                                  type: "Type here",
+                                  isLike: true,
+                                );
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) =>
+                                      buildLocationBottomSheet(context, resto),
+                                );
+                              },
+                              child: const Icon(
+                                Icons.location_on,
+                                size: 30,
+                                color: Colors.black,
+                              ),
+                            ),
                           ],
                         ),
                       ),

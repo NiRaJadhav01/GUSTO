@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.black,
         ),
         child: SingleChildScrollView(
@@ -112,11 +112,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         email,
                         password,
                       );
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Login Successful!"),
-                        ),
-                      );
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         "/gusto",
                         (route) => false,
@@ -130,8 +125,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    shadowColor: Colors.grey,
+                    backgroundColor: Colors.white,
+                    shadowColor: Colors.white,
                     minimumSize: const Size(400, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -141,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     "Sign In",
                     style: GoogleFonts.gabarito(
                       fontSize: 18,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -154,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
                         "Or continue with",
-                        style: TextStyle(color: Colors.grey.shade600),
+                        style: TextStyle(color: Colors.grey.shade300),
                       ),
                     ),
                     const Expanded(child: Divider(thickness: 1)),
@@ -185,7 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     Text(
                       "If you don’t have an account ",
                       style: GoogleFonts.gabarito(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
                         fontSize: 16,
                       ),
                     ),

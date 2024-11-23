@@ -70,11 +70,8 @@ class DetailScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: ElevatedButton(
                     onPressed: () {
-                      favoriteList.add(RestoCards(
-                          restoName: "",
-                          type: "",
-                          imgURL: resto.imgURL,
-                          isLike: true));
+                      favoriteList.add(FavoritesModel(
+                          imageUrl: resto.imgURL, isLiked: true));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white, // Button color

@@ -130,31 +130,33 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
                     fontSize: 14,
                   ),
                 ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        // Handle like functionality
-                      },
-                      icon: const Icon(Icons.favorite_border,
-                          color: Colors.white),
-                    ),
-                    const SizedBox(width: 16),
-                    IconButton(
-                      onPressed: () {
-                        // Handle comment functionality
-                      },
-                      icon: const Icon(Icons.comment, color: Colors.white),
-                    ),
-                    const SizedBox(width: 16),
-                    IconButton(
-                      onPressed: () {
-                        // Handle share functionality
-                      },
-                      icon: const Icon(Icons.share, color: Colors.white),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 60),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          // Handle like functionality
+                        },
+                        icon: const Icon(Icons.favorite_border,
+                            color: Colors.white),
+                      ),
+                      const SizedBox(width: 16),
+                      IconButton(
+                        onPressed: () {
+                          // Handle comment functionality
+                        },
+                        icon: const Icon(Icons.comment, color: Colors.white),
+                      ),
+                      const SizedBox(width: 16),
+                      IconButton(
+                        onPressed: () {
+                          // Handle share functionality
+                        },
+                        icon: const Icon(Icons.share, color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

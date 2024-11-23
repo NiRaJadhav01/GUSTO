@@ -44,7 +44,9 @@ class _GustoState extends State<Gusto> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[screenIndex],
-      bottomNavigationBar: Container(
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButton: Container(
         height: 80,
         decoration: const BoxDecoration(
           color: Colors.black,

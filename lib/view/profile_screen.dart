@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gusto/model/favorites_model.dart';
-import 'package:gusto/view/settings_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -11,23 +10,100 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  void settingsBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 30),
+                // Settings Options
+                _buildSettingsOption('Account'),
+                _buildSettingsOption('Language'),
+                _buildSettingsOption('Dark Mode'),
+                _buildSettingsOption('Email settings'),
+                _buildSettingsOption('Blocked user'),
+                _buildSettingsOption('Security'),
+                // Logout Button
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      iconColor: Colors.red,
+                      minimumSize: const Size(double.infinity, 48),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        "/login",
+                        (route) {
+                          return false;
+                        },
+                      );
+                    },
+                    child: Text(
+                      'Logout',
+                      style: GoogleFonts.gabarito(color: Colors.black),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildSettingsOption(String title) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      title: Text(
+        title,
+        style: const TextStyle(color: Colors.white, fontSize: 16),
+      ),
+      trailing:
+          const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
+      onTap: () {
+        // Add navigation logic here
+      },
+    );
+  }
+
   bool isFav = true;
+  final List<String> highlightImages = [
+    'https://plus.unsplash.com/premium_photo-1661771822467-e516ca075314?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGlzaHxlbnwwfHwwfHx8MA%3D%3D',
+    'https://cdn.pixabay.com/photo/2022/06/07/20/52/curry-7249247_640.jpg',
+    'https://images.moneycontrol.com/static-mcnews/2023/10/pexels-zi%E2%80%99s-foodnatureart-9027521.jpg',
+    'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505',
+    'https://cdn.pixabay.com/photo/2022/06/07/20/52/curry-7249247_640.jpg',
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.notifications_outlined),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const SettingsScreen()));
-                setState(() {});
+                settingsBottomSheet();
               },
-              child: const Icon(Icons.settings_outlined),
+              child: const Icon(Icons.settings),
             ),
           )
         ],
@@ -100,9 +176,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 )
               ],
             ),
-            const SizedBox(
-              height: 50,
+            const SizedBox(height: 20),
+
+            // "My Highlights" Section
+            Text(
+              "My Highlights",
+              style: GoogleFonts.gabarito(
+                fontSize: 20,
+              ),
             ),
+            const SizedBox(height: 10),
+
+            SizedBox(
+              height: 100, // Adjust height as needed
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: highlightImages.length, // Number of highlight images
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Container(
+                      width: 80,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.white,
+                            offset: Offset(4, 4),
+                            blurRadius: 8,
+                            spreadRadius: 1,
+                          ),
+                          BoxShadow(
+                            color: Colors.black,
+                            offset: Offset(-4, -4),
+                            blurRadius: 8,
+                            spreadRadius: 1,
+                          ),
+                        ],
+                        image: DecorationImage(
+                          image: NetworkImage(highlightImages[
+                              index]), // Use each image from the list
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -157,10 +279,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               setState(() {
                                 favoriteList.removeAt(index);
                               });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("Removed from Favourites")),
-                              );
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //   const SnackBar(
+                              //       content: Text("Removed from Favourites")),
+                              // );
                             },
                             child: isFav
                                 ? const Icon(

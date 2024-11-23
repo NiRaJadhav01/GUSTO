@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "646198632348",
-    "project_id": "gusto-74f8f",
-    "storage_bucket": "gusto-74f8f.firebasestorage.app"
+    "project_number": "844649098227",
+    "project_id": "gusto-7c559",
+    "storage_bucket": "gusto-7c559.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:646198632348:android:6513228e74afa323b2f259",
+        "mobilesdk_app_id": "1:844649098227:android:a85c1e15afbb8c57a44086",
         "android_client_info": {
           "package_name": "com.example.gusto"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC3bnk4XNmld3o8G7BI4Aobf1qfWpBmLxU"
+          "current_key": "AIzaSyAN27fC-KnqKGNBcUYvVJiIrRyRFhWAvHE"
         }
       ],
       "services": {
