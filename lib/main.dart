@@ -12,6 +12,7 @@ Future<void> main() async {
       appId: "1:844649098227:android:a85c1e15afbb8c57a44086",
       messagingSenderId: "844649098227",
       projectId: "gusto-7c559",
+      storageBucket: "gusto-7c559.firebasestorage.app",
     ),
   );
   runApp(const MainApp());

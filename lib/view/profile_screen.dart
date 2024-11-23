@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gusto/model/favorites_model.dart';
@@ -10,6 +14,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  DocumentSnapshot? response;
   void settingsBottomSheet() {
     showModalBottomSheet(
       context: context,
@@ -83,6 +88,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Future<void> fetchData() async {
+    response = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    log("NAME: ${response!['name']}");
+    log("URL: ${response!['profileImageUrl']}");
+
+    setState(() {});
+
+    //  for(var in res)
+  }
+
   bool isFav = true;
   final List<String> highlightImages = [
     'https://plus.unsplash.com/premium_photo-1661771822467-e516ca075314?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGlzaHxlbnwwfHwwfHx8MA%3D%3D',
@@ -93,7 +111,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    // Future.delayed(Duration.zero, () async {
+    fetchData();
+    //});
+    // fetchData();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Future<void> fetchData() async {
+      DocumentSnapshot response = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      log("NAME: ${response['name']}");
+      log("URL: ${response['profileImageUrl']}");
+    }
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -121,17 +157,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 shape: BoxShape.circle,
               ),
               child: Image.network(
-                "https://media.licdn.com/dms/image/v2/D4D03AQEoHKOvog00yA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1709236828250?e=2147483647&v=beta&t=qV9GSqCzPq0ilXCggGNDD6dG9_4rkT_eTWc4M2u-FTE",
+                response!['profileImageUrl'] ?? "",
               ),
             ),
             Text(
-              "Shashi Bagal",
+              response!['name'] ?? "",
               style: GoogleFonts.gabarito(
                 fontSize: 20,
               ),
             ),
             Text(
-              "@shashibagal",
+              "@${response!['username'] ?? ""}",
               style: GoogleFonts.gabarito(
                 fontSize: 16,
               ),

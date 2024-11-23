@@ -84,8 +84,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             'username': _usernameController.text.trim(),
             'email': user.email,
             'profileImageUrl': profileImageUrl, // Save profile image URL
-            'followers': 0, // Initialize followers
-            'following': 0, // Initialize following
             'createdAt': FieldValue.serverTimestamp(),
             'uid': user.uid,
           });
@@ -96,12 +94,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           );
 
-          // Navigate to Profile Screen
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => ProfileScreen(userId: user.uid),
-            ),
-          );
+          // Navigate to login screen
+          Navigator.of(context).pushReplacementNamed('/login');
         }
       } on FirebaseAuthException catch (e) {
         String message = "An error occurred. Please try again.";
@@ -304,41 +298,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Text(
                         "Already have an account? ",
                         style: GoogleFonts.gabarito(
-                          color: Colors.grey,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushReplacementNamed('/login');
                         },
                         child: Text(
-                          "Login",
-                          style: GoogleFonts.gabarito(color: Colors.white),
+                          "Login here!",
+                          style: GoogleFonts.gabarito(
+                            color: Colors.blueAccent,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
                   ),
+                  const SizedBox(height: 30),
                 ],
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-// Dummy ProfileScreen class for navigation
-class ProfileScreen extends StatelessWidget {
-  final String userId;
-
-  const ProfileScreen({super.key, required this.userId});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("Welcome to Profile Screen!\nUser ID: $userId"),
       ),
     );
   }
