@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gusto/model/favorites_model.dart';
+import 'package:gusto/view/post_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -121,6 +122,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: PopupMenuButton<String>(
+          icon: const Icon(Icons.add), // Leading button icon
+          onSelected: (value) {
+            if (value == "Post") {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return PostScreen();
+                  },
+                ),
+              );
+              // Navigate or perform actions for "Post"
+            } else if (value == "Hotel") {
+              // Navigate or perform actions for "Hotel"
+            }
+          },
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+            const PopupMenuItem<String>(
+              value: "Post",
+              child: ListTile(
+                leading: Icon(Icons.post_add, color: Colors.black),
+                title: Text("Post"),
+              ),
+            ),
+            const PopupMenuItem<String>(
+              value: "Hotel",
+              child: ListTile(
+                leading: Icon(Icons.hotel, color: Colors.black),
+                title: Text("Hotel"),
+              ),
+            ),
+          ],
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -137,6 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
+            // Profile Image
             Container(
               height: 125,
               width: 125,
@@ -145,22 +180,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: Colors.white,
                 shape: BoxShape.circle,
               ),
-              child: Image.network(
-                response!['profileImageUrl'] ?? "",
-              ),
+              child: response?['profileImageUrl'] != null
+                  ? Image.network(
+                      response!['profileImageUrl'],
+                      fit: BoxFit.cover,
+                    )
+                  : const Icon(
+                      Icons.person,
+                      size: 60,
+                      color: Colors.grey,
+                    ),
             ),
+
+            // Name
             Text(
-              response!['name'] ?? "",
+              response?['name'] ?? "",
               style: GoogleFonts.gabarito(
                 fontSize: 20,
               ),
             ),
+
+            // Username
             Text(
-              "@${response!['username'] ?? ""}",
+              response?['username'] != null ? "@${response!['username']}" : "",
               style: GoogleFonts.gabarito(
                 fontSize: 16,
               ),
             ),
+
             const SizedBox(
               height: 20,
             ),
