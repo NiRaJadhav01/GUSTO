@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:gusto/model/posts_model.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PostScreen extends StatefulWidget {
@@ -67,7 +68,7 @@ class _PostScreenState extends State<PostScreen> {
     return await snapshot.ref.getDownloadURL();
   }
 
-  // Function to save the post data to Firestore
+  // Function to save the post data to Firestore and add it to the postsModel list
   Future<void> savePost() async {
     if (nameController.text.isEmpty ||
         locationController.text.isEmpty ||
@@ -93,6 +94,22 @@ class _PostScreenState extends State<PostScreen> {
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get();
       final profileImageUrl = userDoc['profileImageUrl'];
+
+      // Create a new PostsModel object and insert at the 0th index
+      final newPost = PostsModel(
+        profileImg: profileImageUrl,
+        name: nameController.text,
+        location: locationController.text,
+        postImg: postImageUrl,
+        count: 0,
+        isLike: false,
+      );
+
+      // Insert the new post at the 0th index of postsModel list
+      setState(() {
+        postsModel.insert(
+            0, newPost); // Adds the post to the beginning of the list
+      });
 
       // Save post details to Firestore
       await FirebaseFirestore.instance.collection('posts').add({

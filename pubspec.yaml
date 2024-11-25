@@ -23,6 +23,7 @@ dependencies:
   google_nav_bar: ^5.0.7
   image_picker: ^1.1.2
   persistent_bottom_nav_bar: ^6.2.1
+  tbib_splash_screen: ^1.0.0
   video_player: ^2.9.2
   visibility_detector: ^0.4.0+2
   youtube_player_flutter: ^9.1.1
